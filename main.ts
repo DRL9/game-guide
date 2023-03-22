@@ -1,4 +1,4 @@
-import type { EmblemImbue } from '@prisma/client'
+import type { EmblemImbue, Prisma } from '@prisma/client'
 import fs from 'fs'
 import db from './libs/db.js'
 
@@ -27,6 +27,25 @@ async function addEmblemImbue() {
       update: record
     })
   }
+  await exportEmblemImbue('emblemImbue')
+}
+
+type ClientMethod =
+  | '$connect'
+  | '$disconnect'
+  | '$use'
+  | '$on'
+  | '$transaction'
+  | '$queryRawUnsafe'
+  | '$queryRaw'
+  | '$executeRawUnsafe'
+  | '$executeRaw'
+type ModelName = Exclude<keyof typeof db, ClientMethod>
+type TypeFind = Prisma.EmblemImbueDelegate<undefined>
+
+async function exportEmblemImbue(tableName: ModelName) {
+  const records = await (db[tableName] as TypeFind).findMany()
+  await fs.promises.writeFile('./public/game_data/' + tableName + '.json', JSON.stringify(records))
 }
 
 type TaskFn = () => Promise<void>
