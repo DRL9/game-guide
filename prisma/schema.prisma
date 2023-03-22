@@ -1,0 +1,38 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Bond Fragment 牵绊碎片
+
+// 纹章士刻印
+model EmblemImbue {
+  emblem String @id // 纹章士
+  imbue  String // 刻印
+  damage Int // 威力
+  weight Int // 重量
+  hit    Int // 命中
+  crit   Int // 必杀
+  avoid  Int // 回避
+  ddg    Int // 必避
+}
+
+model Weapon {
+  name   String @id
+  might  Int // 物攻
+  hit    Int // 命中
+  weight Int
+  crit   Int
+  avoid  Int
+  ddg    Int
+  level  String
+  rng    Int // 射程
+  eff    String // 克制
+}
