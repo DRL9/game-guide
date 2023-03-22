@@ -1,5 +1,6 @@
 -- CreateTable
-CREATE TABLE "Emblem" (
+CREATE TABLE "EmblemImbue" (
+    "order" INTEGER NOT NULL,
     "emblem" TEXT NOT NULL PRIMARY KEY,
     "imbue" TEXT NOT NULL,
     "damage" INTEGER NOT NULL,

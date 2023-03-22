@@ -14,6 +14,7 @@ datasource db {
 
 // 纹章士刻印
 model EmblemImbue {
+  order  Int
   emblem String @id // 纹章士
   imbue  String // 刻印
   damage Int // 威力

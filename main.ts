@@ -1,0 +1,38 @@
+import type { EmblemImbue } from '@prisma/client'
+import fs from 'fs'
+import db from './libs/db.js'
+
+async function addEmblemImbue() {
+  const content = await fs.promises.readFile('./tmp/imbue', 'utf-8')
+  const lines = content.split('\n')
+  let i = 0
+  for (const line of lines) {
+    const rows = line.split('\t')
+    const record: EmblemImbue = {
+      order: ++i,
+      emblem: rows[0],
+      imbue: rows[1],
+      damage: parseInt(rows[3]),
+      weight: parseInt(rows[4]),
+      hit: parseInt(rows[5]),
+      crit: parseInt(rows[6]),
+      avoid: parseInt(rows[7]),
+      ddg: parseInt(rows[8])
+    }
+    await db.emblemImbue.upsert({
+      where: {
+        emblem: record.emblem
+      },
+      create: record,
+      update: record
+    })
+  }
+}
+
+type TaskFn = () => Promise<void>
+export async function runTask(tasks: TaskFn[]) {
+  await Promise.all(tasks.map((fn) => fn()))
+  console.log('success')
+}
+
+runTask([addEmblemImbue])
