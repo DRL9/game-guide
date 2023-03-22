@@ -6,13 +6,13 @@ const { data: list } = useFetch<EmblemImbue[]>('/game_data/emblemImbue.json')
 </script>
 
 <template>
-  <main>
+  <main class="page">
     <h1>纹章士刻印</h1>
     <el-table :data="list || []" max-height="90vh">
       <el-table-column prop="order" label="序号" sortable />
       <el-table-column prop="emblem" label="纹章士" sortable />
       <el-table-column prop="imbue" label="刻印" sortable fixed />
-      <el-table-column prop="damage" label="威力" sortable />
+      <el-table-column prop="might" label="威力" sortable />
       <el-table-column prop="weight" label="重量" sortable />
       <el-table-column prop="hit" label="命中" sortable />
       <el-table-column prop="crit" label="必杀" sortable />
@@ -21,11 +21,3 @@ const { data: list } = useFetch<EmblemImbue[]>('/game_data/emblemImbue.json')
     </el-table>
   </main>
 </template>
-
-<style>
-main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-</style>

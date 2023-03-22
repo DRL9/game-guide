@@ -16,6 +16,14 @@ const router = createRouter({
         title: '纹章士刻印'
       },
       component: () => import('../views/EmblemImbueView.vue')
+    },
+    {
+      path: '/Weapon',
+      name: 'Weapon',
+      meta: {
+        title: '武器数据'
+      },
+      component: () => import('../views/WeaponView.vue')
     }
   ]
 })

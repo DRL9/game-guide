@@ -17,7 +17,7 @@ model EmblemImbue {
   order  Int
   emblem String @id // 纹章士
   imbue  String // 刻印
-  damage Int // 威力
+  might  Int // 威力
   weight Int // 重量
   hit    Int // 命中
   crit   Int // 必杀
@@ -26,14 +26,22 @@ model EmblemImbue {
 }
 
 model Weapon {
-  name   String @id
-  might  Int // 物攻
-  hit    Int // 命中
-  weight Int
-  crit   Int
-  avoid  Int
-  ddg    Int
-  level  String
-  rng    Int // 射程
-  eff    String // 克制
+  order    Int?
+  name     String
+  kind     String // 种类： 剑/斧 等
+  type     String //  equip/engage
+  desc     String?
+  approach String?
+  price    Int?
+  might    Int? // 威力
+  hit      Int? // 命中
+  weight   Int?
+  crit     Int?
+  avoid    Int?
+  ddg      Int?
+  rng      Int? // 射程
+  level    String?
+  eff      String? // 克制
+
+  @@unique([name, type])
 }
