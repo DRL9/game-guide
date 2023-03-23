@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import type { Weapon, EmblemImbue } from '@prisma/client'
-import { useFetch } from '@/compositions/fetch'
+import { useFetchCached } from '@/compositions/fetch'
 import { computed, watchEffect } from 'vue'
 import { useLocalStorage } from '@/compositions/localStorage'
 
-const { data: emblemImbueList } = useFetch<EmblemImbue[]>('/game_data/emblemImbue.json')
-const { data: weaponList } = useFetch<Weapon[]>('/game_data/weapon.json')
+const { data: emblemImbueList } = useFetchCached<EmblemImbue[]>('/game_data/emblemImbue.json')
+const { data: weaponList } = useFetchCached<Weapon[]>('/game_data/weapon.json')
 const weaponOpts = computed(() => {
   if (!weaponList.value || weaponList.value.length === 0) {
     return []
   }
   const grouped = weaponList.value
-    .filter((row) => row.type === 'equip')
+    .filter((row) => row.type === 'equip' && row.kind !== '杖')
     .reduce((acc, row) => {
       let weapons: Set<string> = acc.get(row.kind)
       if (!weapons) {
@@ -60,6 +60,8 @@ const loading = computed(() => weaponOpts.value.length === 0 || !emblemImbueList
       <el-table-column label="武器" width="140px">
         <template #default="scope">
           <el-tree-select
+            placeholder="选择武器"
+            clearable
             v-model="selected[scope.row.imbue]"
             :data="weaponOpts"
             :render-after-expand="true"

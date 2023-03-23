@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { useFetch } from '@/compositions/fetch'
+import { useFetchCached } from '@/compositions/fetch'
 import type { Weapon } from '@prisma/client'
 import type { TableColumnCtx } from 'element-plus'
 import { computed } from 'vue'
 
-const { data: list } = useFetch<Weapon[]>('/game_data/weapon.json')
+const { data: list } = useFetchCached<Weapon[]>('/game_data/weapon.json')
 
 function filterFieldFactory(field: keyof Weapon) {
   return computed(() =>
