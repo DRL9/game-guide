@@ -4,7 +4,7 @@ import { useFetch } from '@/compositions/fetch'
 import { computed, watchEffect } from 'vue'
 import { useLocalStorage } from '@/compositions/localStorage'
 
-const { data: list } = useFetch<EmblemImbue[]>('/game_data/emblemImbue.json')
+const { data: emblemImbueList } = useFetch<EmblemImbue[]>('/game_data/emblemImbue.json')
 const { data: weaponList } = useFetch<Weapon[]>('/game_data/weapon.json')
 const weaponOpts = computed(() => {
   if (!weaponList.value || weaponList.value.length === 0) {
@@ -38,6 +38,7 @@ watchEffect(() => {
 function onClearConfig() {
   selected.value = {}
 }
+const loading = computed(() => weaponOpts.value.length === 0 || !emblemImbueList.value)
 </script>
 
 <template>
@@ -46,7 +47,7 @@ function onClearConfig() {
     <div>
       <el-button @click="onClearConfig">清除配置</el-button>
     </div>
-    <el-table :data="list || []" max-height="90vh">
+    <el-table :data="emblemImbueList || []" max-height="90vh" v-loading="loading">
       <el-table-column prop="order" label="序号" sortable />
       <el-table-column prop="emblem" label="纹章士" sortable />
       <el-table-column prop="imbue" label="刻印" sortable fixed />
@@ -61,7 +62,7 @@ function onClearConfig() {
           <el-tree-select
             v-model="selected[scope.row.imbue]"
             :data="weaponOpts"
-            :render-after-expand="false"
+            :render-after-expand="true"
           />
         </template>
       </el-table-column>
