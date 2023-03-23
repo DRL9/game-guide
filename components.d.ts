@@ -20,7 +20,7 @@ declare module '@vue/runtime-core' {
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
+    TableColumnClassName: typeof import('./src/components/TableColumnClassName.vue')['default']
   }
   export interface ComponentCustomProperties {
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']

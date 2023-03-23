@@ -4,6 +4,8 @@ import { useFetchCached } from '@/compositions/fetch'
 import { computed, watchEffect } from 'vue'
 import { useLocalStorage } from '@/compositions/localStorage'
 
+import TableColumnClassName from '@/components/TableColumnClassName.vue'
+
 const { data: emblemImbueList } = useFetchCached<EmblemImbue[]>('/game_data/emblemImbue.json')
 const { data: weaponList } = useFetchCached<Weapon[]>('/game_data/weapon.json')
 const weaponOpts = computed(() => {
@@ -39,6 +41,12 @@ function onClearConfig() {
   selected.value = {}
 }
 const loading = computed(() => weaponOpts.value.length === 0 || !emblemImbueList.value)
+
+function classGetter(isPositiveBetter: boolean) {
+  return (a: number) => (a === 0 ? '' : (isPositiveBetter ? a > 0 : a <= 0) ? 'good' : 'bad')
+}
+const posiGetter = classGetter(true)
+const negGetter = classGetter(false)
 </script>
 
 <template>
@@ -51,12 +59,48 @@ const loading = computed(() => weaponOpts.value.length === 0 || !emblemImbueList
       <el-table-column prop="order" label="序号" sortable />
       <el-table-column prop="emblem" label="纹章士" sortable />
       <el-table-column prop="imbue" label="刻印" sortable fixed />
-      <el-table-column prop="might" label="威力" sortable />
-      <el-table-column prop="weight" label="重量" sortable />
-      <el-table-column prop="hit" label="命中" sortable />
-      <el-table-column prop="crit" label="必杀" sortable />
-      <el-table-column prop="avoid" label="回避" sortable />
-      <el-table-column prop="ddg" label="必避" sortable />
+      <table-column-class-name
+        align="center"
+        :class-getter="posiGetter"
+        prop="might"
+        label="威力"
+        sortable
+      />
+      <table-column-class-name
+        align="center"
+        :class-getter="negGetter"
+        prop="weight"
+        label="重量"
+        sortable
+      />
+      <table-column-class-name
+        align="center"
+        :class-getter="posiGetter"
+        prop="hit"
+        label="命中"
+        sortable
+      />
+      <table-column-class-name
+        align="center"
+        :class-getter="posiGetter"
+        prop="crit"
+        label="必杀"
+        sortable
+      />
+      <table-column-class-name
+        align="center"
+        :class-getter="posiGetter"
+        prop="avoid"
+        label="回避"
+        sortable
+      />
+      <table-column-class-name
+        align="center"
+        :class-getter="posiGetter"
+        prop="ddg"
+        label="必避"
+        sortable
+      />
       <el-table-column label="武器" width="140px">
         <template #default="scope">
           <el-tree-select
@@ -71,3 +115,14 @@ const loading = computed(() => weaponOpts.value.length === 0 || !emblemImbueList
     </el-table>
   </main>
 </template>
+
+<style>
+.bad {
+  background-color: red;
+  color: white;
+}
+.good {
+  color: white;
+  background-color: green;
+}
+</style>

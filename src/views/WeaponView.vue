@@ -42,6 +42,7 @@ const filterHandler = (value: string, row: any, column: TableColumnCtx<Weapon>) 
         :filters="filterType"
         :filter-method="filterHandler"
       />
+      <el-table-column prop="price" label="价格" sortable />
       <el-table-column prop="might" label="威力" sortable />
       <el-table-column prop="weight" label="重量" sortable />
       <el-table-column prop="hit" label="命中" sortable />
