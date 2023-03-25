@@ -27,7 +27,7 @@ const filterHandler = (value: string, row: any, column: TableColumnCtx<Weapon>) 
 <template>
   <main class="page">
     <h1>武器数据</h1>
-    <el-table :data="list || []" max-height="90vh">
+    <el-table :data="list || []" max-height="90vh" v-loading="!list || list.length === 0">
       <el-table-column prop="order" label="序号" sortable />
       <el-table-column prop="name" label="名称" sortable fixed />
       <el-table-column

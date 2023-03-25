@@ -10,6 +10,11 @@ const router = createRouter({
       component: HomeView
     },
     {
+      path: '/tmp',
+      name: 'tmp',
+      component: () => import('../views/TmpView.vue')
+    },
+    {
       path: '/EmblemImbue',
       name: 'EmblemImbue',
       meta: {

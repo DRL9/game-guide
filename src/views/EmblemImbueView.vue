@@ -25,7 +25,7 @@ const weaponOpts = computed(() => {
   return Array.from(grouped).map(([kind, names]) => ({
     value: kind,
     label: kind,
-    children: Array.from(names).map((a) => ({ value: a, label: a }))
+    children: Array.from(names).map((a) => ({ value: a as string, label: a }))
   }))
 })
 type ImbueWeapon = {
@@ -40,6 +40,7 @@ watchEffect(() => {
 function onClearConfig() {
   selected.value = {}
 }
+
 const loading = computed(() => weaponOpts.value.length === 0 || !emblemImbueList.value)
 
 function classGetter(isPositiveBetter: boolean) {
@@ -57,8 +58,8 @@ const negGetter = classGetter(false)
     </div>
     <el-table :data="emblemImbueList || []" max-height="90vh" v-loading="loading">
       <el-table-column prop="order" label="序号" sortable />
-      <el-table-column prop="emblem" label="纹章士" sortable />
-      <el-table-column prop="imbue" label="刻印" sortable fixed />
+      <el-table-column prop="emblem" label="纹章士" />
+      <el-table-column prop="imbue" label="刻印" fixed />
       <table-column-class-name
         align="center"
         :class-getter="posiGetter"
@@ -103,13 +104,22 @@ const negGetter = classGetter(false)
       />
       <el-table-column label="武器" width="140px">
         <template #default="scope">
-          <el-tree-select
+          <!-- 当排序时， 使用 tree-select 会出现行错位 -->
+          <!-- <el-tree-select
             placeholder="选择武器"
             clearable
             v-model="selected[scope.row.imbue]"
             :data="weaponOpts"
-            :render-after-expand="true"
-          />
+          /> -->
+          <el-select v-model="selected[scope.row.imbue]">
+            <el-option-group v-for="group in weaponOpts" :label="group.label" :key="group.label">
+              <el-option
+                v-for="item in group.children"
+                :value="item.value"
+                :key="item.value"
+              ></el-option>
+            </el-option-group>
+          </el-select>
         </template>
       </el-table-column>
     </el-table>
