@@ -111,7 +111,7 @@ const negGetter = classGetter(false)
             v-model="selected[scope.row.imbue]"
             :data="weaponOpts"
           /> -->
-          <el-select v-model="selected[scope.row.imbue]">
+          <el-select v-model="selected[scope.row.imbue]" clearable>
             <el-option-group v-for="group in weaponOpts" :label="group.label" :key="group.label">
               <el-option
                 v-for="item in group.children"
