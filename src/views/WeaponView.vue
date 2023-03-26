@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useFetchCached } from '@/compositions/fetch'
 import type { Weapon } from '@prisma/client'
-import type { TableColumnCtx } from 'element-plus'
+import { filterHandler } from '@/utils/tableColumnFilter'
 import { computed } from 'vue'
 
 const { data: list } = useFetchCached<Weapon[]>('/game_data/weapon.json')
@@ -18,10 +18,6 @@ function filterFieldFactory(field: keyof Weapon) {
 }
 const filterType = filterFieldFactory('type')
 const filterKind = filterFieldFactory('kind')
-const filterHandler = (value: string, row: any, column: TableColumnCtx<Weapon>) => {
-  const property = column['property']
-  return row[property] === value
-}
 </script>
 
 <template>

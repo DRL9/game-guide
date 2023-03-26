@@ -29,6 +29,14 @@ const router = createRouter({
         title: '武器数据'
       },
       component: () => import('../views/WeaponView.vue')
+    },
+    {
+      path: '/Classes',
+      name: 'Classes',
+      meta: {
+        title: '职业数据'
+      },
+      component: () => import('../views/ClassesView.vue')
     }
   ]
 })

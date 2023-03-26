@@ -45,3 +45,25 @@ model Weapon {
 
   @@unique([name, type])
 }
+
+// 职业
+model Classes {
+  name            String @id
+  order           Int
+  level           String
+  weapon          String
+  specialSkill    String
+  skillDesc       String // 技能描述
+  combatType      String // 战斗类型
+  combatDesc      String // 战斗类型描述
+  remark          String // 备注
+  hpMax           Int
+  powerMax        Int // 力量
+  magicMax        Int // 魔力
+  skillMax        Int // 技巧
+  speedMax        Int // 速度
+  luckMax         Int // 幸运
+  resistanceMax   Int // 魔防
+  defenseMax      Int // 物防
+  constitutionMax Int // 体格
+}
